@@ -1,0 +1,26 @@
+{
+  "operation_date": "2020-01-01 09:59:00",
+  "operation_description": "GoPro 9 Hero Black",
+  "operation_title": "GoPro 9",
+  "operation_type": [
+    "expense",
+    "income"
+  ],
+  "categories": [
+    "tecnology",
+    "gadgets"
+  ],
+  "recurrency_quantity": 2,
+  "recurrency_type": "MONTH",
+  "amount": 4899.90,
+  "account": [
+    "nubank",
+    "santander",
+    "bradesco",
+    "mastercard"
+  ],
+  "created_at": "2020-01-01 09:59:00",
+  "updated_at": "2020-01-01 09:59:00",
+  "user_id": 1,
+  "paid": true
+}
