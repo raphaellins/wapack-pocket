@@ -10,12 +10,17 @@ export default createGlobalStyle`
   }
 
   body{
-    background-color: #F0F0F5;
+    background-color: #312E38;
     -webkit-font-smooth: antialiased;
+    color: #fff;
   }
 
   body, input, button {
     font-family: 16px Roboto, sans-serif
+  }
+
+  button{
+    cursor: pointer;
   }
 
   #root{
@@ -23,4 +28,6 @@ export default createGlobalStyle`
     margin: 0 auto;
     padding: 40px 20px;
   }
+
+ 
 `;
