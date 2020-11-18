@@ -1,4 +1,4 @@
-export default interface Wallet{
+export default interface WalletOperation {
   operationDate: Date;
   operationDescription: String;
   operationTitle: String;
