@@ -1,8 +1,8 @@
-import { db } from "../config/Admin";
-var firebase = require("firebase/app");
-import * as configuration from "../../configuration";
+import { database } from "../config/Admin";
+import { firebaseConfig } from "../../configuration";
+import firebase from "firebase";
 
-firebase.initialize(configuration);
+firebase.initializeApp(firebaseConfig);
 
 export function loginUser(request: any, response: any) {
   const user = {
@@ -40,7 +40,8 @@ export function signUpUser(request: any, response: any) {
   };
 
   let token: any, userId: any;
-  db.doc(`/users/${newUser.username}`)
+  database
+    .doc(`/users/${newUser.username}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
@@ -69,7 +70,7 @@ export function signUpUser(request: any, response: any) {
         createdAt: new Date().toISOString(),
         userId,
       };
-      return db.doc(`/users/${newUser.username}`).set(userCredentials);
+      return database.doc(`/users/${newUser.username}`).set(userCredentials);
     })
     .then(() => {
       return response.status(201).json({ token });

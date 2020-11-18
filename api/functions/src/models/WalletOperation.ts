@@ -1,15 +1,18 @@
+import { AccountType } from "./AccountType";
+import { OperationType } from "./OperationType";
+
 export default interface WalletOperation {
   operationDate: Date;
   operationDescription: String;
   operationTitle: String;
-  operationType: String;
+  operationType: OperationType;
   categories: Array<String>;
   recurrencyQuantity: Number;
   recurrencyType: String;
   amount: Number;
-  account: String;
+  account: AccountType;
   createdAt: Date;
-  UpdatedAt: Date;
-  UserId: String;
+  updatedAt: Date;
+  userId: String;
   paid: boolean;
 }

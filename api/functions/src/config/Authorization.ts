@@ -1,4 +1,4 @@
-import { admin, db } from "./Admin";
+import { admin, database } from "./Admin";
 
 export default function authorization(request: any, response: any, next: any) {
   let idToken;
@@ -16,7 +16,7 @@ export default function authorization(request: any, response: any, next: any) {
     .verifyIdToken(idToken)
     .then((decodedToken) => {
       request.user = decodedToken;
-      return db
+      return database
         .collection("users")
         .where("userId", "==", request.user.uid)
         .limit(1)
