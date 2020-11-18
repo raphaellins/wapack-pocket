@@ -9,6 +9,7 @@ export default interface WalletOperation {
   categories: Array<String>;
   recurrencyQuantity: Number;
   recurrencyType: String;
+  recurrencyDate: Date;
   amount: Number;
   account: AccountType;
   createdAt: Date;

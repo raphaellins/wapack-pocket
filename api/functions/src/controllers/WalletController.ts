@@ -15,11 +15,9 @@ export async function createOperation(request: any, response: any) {
     });
   }
 
-  requestWalletOperation.createdAt = new Date();
-  requestWalletOperation.updatedAt = new Date();
-  requestWalletOperation.userId = request.user.user_id;
+  createOperationEntity(request, requestWalletOperation);
 
-  await database.collection("wallet").add(requestWalletOperation);
+  createRecurrencyOperations(request, requestWalletOperation);
 
   return response.json({ detail: "Operation created with sucess!" });
 }
@@ -82,4 +80,42 @@ function isValid(wallet: WalletOperation): boolean {
   }
 
   return true;
+}
+
+async function createRecurrencyOperations(
+  request: any,
+  wallet: WalletOperation
+) {
+  if (wallet.recurrencyQuantity > 1) {
+    let index: number = 1;
+
+    for (; index < wallet.recurrencyQuantity; index++) {
+      const walletEntity: WalletOperation = wallet;
+
+      console.log(wallet.operationDate);
+
+      if (walletEntity.recurrencyType == "MONTH") {
+        walletEntity.operationDate = new Date(
+          wallet.operationDate.setMonth(wallet.operationDate.getMonth() + index)
+        );
+      } else if (walletEntity.recurrencyType == "WEEk") {
+        //TODO verify how to iterate on weeks
+      }
+
+      console.log("REQUEST: ", index, walletEntity.operationDate);
+
+      // createOperationEntity(request, walletEntity);
+    }
+  }
+}
+
+async function createOperationEntity(
+  request: any,
+  requestWalletOperation: WalletOperation
+) {
+  requestWalletOperation.createdAt = new Date();
+  requestWalletOperation.updatedAt = new Date();
+  requestWalletOperation.userId = request.user.user_id;
+
+  await database.collection("wallet").add(requestWalletOperation);
 }
