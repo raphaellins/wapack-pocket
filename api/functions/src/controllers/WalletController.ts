@@ -89,22 +89,24 @@ async function createRecurrencyOperations(
   if (wallet.recurrencyQuantity > 1) {
     let index: number = 1;
 
+    let operationDate = new Date(wallet.operationDate);
+
     for (; index < wallet.recurrencyQuantity; index++) {
       const walletEntity: WalletOperation = wallet;
 
-      console.log(wallet.operationDate);
-
       if (walletEntity.recurrencyType == "MONTH") {
         walletEntity.operationDate = new Date(
-          wallet.operationDate.setMonth(wallet.operationDate.getMonth() + index)
+          operationDate.setMonth(operationDate.getMonth() + index)
         );
-      } else if (walletEntity.recurrencyType == "WEEk") {
-        //TODO verify how to iterate on weeks
+      } else if (walletEntity.recurrencyType == "WEEK") {
+        walletEntity.operationDate = new Date(
+          operationDate.setDate(operationDate.getDate() + 1 * 7)
+        );
       }
 
-      console.log("REQUEST: ", index, walletEntity.operationDate);
+      operationDate = new Date(walletEntity.operationDate);
 
-      // createOperationEntity(request, walletEntity);
+      createOperationEntity(request, walletEntity);
     }
   }
 }
