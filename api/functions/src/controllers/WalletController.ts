@@ -9,7 +9,7 @@ export async function createOperation(request: any, response: any) {
   }
 
   if (!isValid(requestWalletOperation)) {
-    response.status(400).json({
+    return response.status(400).json({
       detail: "Invalid Operation",
       requestBody: requestWalletOperation,
     });
@@ -22,32 +22,48 @@ export async function createOperation(request: any, response: any) {
   return response.json({ detail: "Operation created with sucess!" });
 }
 
-export function deleteOperation(request: any, response: any) {
-  const requestWalletOperation: WalletOperation = request.body;
+export async function deleteOperation(request: any, response: any) {
+  const { operationId } = request.params;
 
-  console.log("Request", requestWalletOperation);
+  if (!operationId) {
+    return response.status(400).json({ detail: "operationId cannot be null" });
+  }
 
-  return response.json({ result: "Everything works" });
+  await database.collection("draws").doc(operationId).delete();
+
+  return response.json({ result: `Operation Id: ${operationId} deleted` });
 }
 
-export function getOperation(
+export async function getOperation(
   request: any,
   response: any
-): Array<WalletOperation> {
-  const requestWalletOperation: WalletOperation = request.body;
+): Promise<WalletOperation> {
+  const { operationId } = request.params;
 
-  console.log("Request", requestWalletOperation);
+  if (!operationId) {
+    return response.status(400).json({ detail: "operationId cannot be null" });
+  }
 
-  return response.json({ result: "Everything works" });
+  const operationDetail = await database
+    .collection("wallet")
+    .doc(operationId)
+    .get();
+
+  return response.json(operationDetail);
 }
 
-export function findOperation(
+export async function findOperation(
   request: any,
   response: any
-): Array<WalletOperation> {
+): Promise<Array<WalletOperation>> {
   const requestWalletOperation: WalletOperation = request.body;
 
   console.log("Request", requestWalletOperation);
+
+  const operationDetail = await database
+    .collection("wallet")
+    // .where("id", "==", operationId)
+    .get();
 
   return response.json({ result: "Everything works" });
 }
