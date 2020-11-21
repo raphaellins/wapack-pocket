@@ -1,6 +1,9 @@
 import React from "react";
 import { Component } from "react";
 import UserProxy from "../../services/user.proxy";
+import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 import { Container, Content } from "./styles";
 
@@ -38,18 +41,20 @@ export default class Login extends Component<any, any> {
         <Content>
           <form onSubmit={this.handleSubmit}>
             <h1>Wapack Pocket</h1>
-            <input
+            <Input
+              icon={FiMail}
               placeholder="E-mail"
               name="email"
               onChange={this.handleChange}
             />
-            <input
+            <Input
+              icon={FiLock}
               placeholder="Password"
               type="password"
               name="password"
               onChange={this.handleChange}
             />
-            <button type="submit">Sign in</button>
+            <Button type="submit">Sign in</Button>
           </form>
         </Content>
       </Container>
