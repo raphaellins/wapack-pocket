@@ -4,7 +4,7 @@ import { database } from "../config/Admin";
 export async function createOperation(request: any, response: any) {
   const requestWalletOperation: WalletOperation = request.body;
 
-  if (request.body == null) {
+  if (request.body === null) {
     return response.status(400).json({ detail: "Especify the Operation!" });
   }
 
@@ -15,9 +15,9 @@ export async function createOperation(request: any, response: any) {
     });
   }
 
-  createOperationEntity(request, requestWalletOperation);
+  await createOperationEntity(request, requestWalletOperation);
 
-  createRecurrencyOperations(request, requestWalletOperation);
+  await createRecurrencyOperations(request, requestWalletOperation);
 
   return response.json({ detail: "Operation created with sucess!" });
 }
@@ -56,16 +56,41 @@ export async function findOperation(
   request: any,
   response: any
 ): Promise<Array<WalletOperation>> {
-  const requestWalletOperation: WalletOperation = request.body;
+  const { operationMonth } = request.params;
 
-  console.log("Request", requestWalletOperation);
+  const operationDate: Date = new Date(operationMonth);
 
-  const operationDetail = await database
+  const initalDate: Date = new Date(
+    operationDate.getFullYear(),
+    operationDate.getMonth(),
+    1
+  );
+
+  const finalDate: Date = new Date(
+    operationDate.getFullYear(),
+    operationDate.getMonth() + 1,
+    0
+  );
+
+  const snapshot = await database
     .collection("wallet")
-    // .where("id", "==", operationId)
+    .where("operationDate", ">", initalDate.toISOString())
+    .where("operationDate", "<", finalDate.toISOString())
     .get();
 
-  return response.json({ result: "Everything works" });
+  const operations = [];
+
+  for (const operationIndex in snapshot.docs) {
+    const operationId = snapshot.docs[operationIndex].id;
+    const operation = snapshot.docs[operationIndex].data();
+
+    operations.push({
+      operationId,
+      ...operation,
+    });
+  }
+
+  return response.json(operations);
 }
 
 export function updateOperation(
@@ -110,11 +135,11 @@ async function createRecurrencyOperations(
     for (; index < wallet.recurrencyQuantity; index++) {
       const walletEntity: WalletOperation = wallet;
 
-      if (walletEntity.recurrencyType == "MONTH") {
+      if (walletEntity.recurrencyType === "MONTH") {
         walletEntity.operationDate = new Date(
           operationDate.setMonth(operationDate.getMonth() + index)
         );
-      } else if (walletEntity.recurrencyType == "WEEK") {
+      } else if (walletEntity.recurrencyType === "WEEK") {
         walletEntity.operationDate = new Date(
           operationDate.setDate(operationDate.getDate() + 1 * 7)
         );
@@ -122,7 +147,7 @@ async function createRecurrencyOperations(
 
       operationDate = new Date(walletEntity.operationDate);
 
-      createOperationEntity(request, walletEntity);
+      await createOperationEntity(request, walletEntity);
     }
   }
 }

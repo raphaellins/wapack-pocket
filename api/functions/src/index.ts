@@ -21,7 +21,11 @@ application.post("/signin", loginUser);
 
 application.post("/wallet-operation", authorization, createOperation);
 application.get("/wallet-operation/:operation-id", authorization, getOperation);
-application.get("/wallet-operation", authorization, findOperation);
+application.get(
+  "/wallet-operation/find-by-month/:operationMonth",
+  authorization,
+  findOperation
+);
 application.delete("/wallet-operation", authorization, deleteOperation);
 application.put("/wallet-operation", authorization, updateOperation);
 
