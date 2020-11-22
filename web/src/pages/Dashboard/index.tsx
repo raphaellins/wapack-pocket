@@ -5,6 +5,8 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Title>Minhas movimentações</Title>
+
+      <button type="submit">Log Out</button>
     </>
   );
 };

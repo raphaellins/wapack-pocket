@@ -3,7 +3,6 @@ import { Switch, Route } from "react-router-dom";
 
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
-
 import WalletOperation from "../pages/WalletOperation";
 
 const Routes: React.FC = () => (

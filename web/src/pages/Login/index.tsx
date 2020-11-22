@@ -1,14 +1,15 @@
 import React, { useCallback, useRef } from "react";
 import { FormHandles } from "@unform/core";
-import UserProxy from "../../services/user.proxy";
 import { FiMail, FiLock } from "react-icons/fi";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Form } from "@unform/web";
 import * as Yup from "yup";
 import getValidationErrors from "../../utils/getValidationErrors";
+import { useHistory } from "react-router-dom";
 
 import { Container, Content } from "./styles";
+import { useAuth } from "../../hooks/AuthContext";
 
 interface UserLogin {
   email: string;
@@ -17,27 +18,33 @@ interface UserLogin {
 
 const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
+  const { signIn } = useAuth();
 
-  const handleSubmit = useCallback(async (data: UserLogin) => {
-    try {
-      const schema = Yup.object().shape({
-        email: Yup.string().required("Email required").email("Invalid Email"),
-        password: Yup.string().min(6, "Less than 6 characters"),
-      });
+  const handleSubmit = useCallback(
+    async (data: UserLogin) => {
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string().required("Required").email("Invalid Email"),
+          password: Yup.string().required("Required"),
+        });
 
-      await schema.validate(data, { abortEarly: false });
+        await schema.validate(data, { abortEarly: false });
 
-      const token = await new UserProxy().login(data.email, data.password);
+        const logged = await signIn({
+          email: data.email,
+          password: data.password,
+        });
 
-      if (token) {
-        localStorage.setItem("AuthToken", `Bearer ${token}`);
-      } else {
-        //TODO error
+        if (logged) {
+          history.push("/dashboard");
+        }
+      } catch (err) {
+        formRef.current?.setErrors(getValidationErrors(err));
       }
-    } catch (err) {
-      formRef.current?.setErrors(getValidationErrors(err));
-    }
-  }, []);
+    },
+    [signIn, history]
+  );
 
   return (
     <Container>
