@@ -11,14 +11,16 @@ const Container = styled.div`
     display: flex;
     align-self: center;
     align-items: center;
+    color: #000;
 
     button {
       border: 0;
       background: none;
+      background-color: #000;
     }
 
     strong {
-      color: #fff;
+      color: #000;
       font-size: 24px;
       margin: 0 15px;
     }

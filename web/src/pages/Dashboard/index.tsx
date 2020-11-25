@@ -22,6 +22,10 @@ const Dashboard: React.FC = () => {
     history.push("/");
   };
 
+  const handleNewOperation = () => {
+    console.log("HANDLE NEW OPERATION");
+  };
+
   useEffect(() => {
     async function loadOperations() {
       const data = await new WalletProxy().listAllOperations(
@@ -38,6 +42,9 @@ const Dashboard: React.FC = () => {
     <Container>
       <button type="submit" onClick={handleSignOut}>
         Log Out
+      </button>
+      <button type="submit" onClick={handleNewOperation}>
+        New Operation
       </button>
       <header>
         <button type="submit">
