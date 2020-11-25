@@ -32,10 +32,9 @@ const Container = styled.div`
 
 const Operation = styled.li`
   display: flex;
-  border-radius: 4px;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
 
   padding-right: 5px;
   margin-bottom: 10px;
@@ -57,15 +56,16 @@ const OperationDay = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #7159c1;
-  border-radius: 4px;
 
   strong {
-    color: #ccc;
-    font-size: 14px;
+    color: #000;
+    font-weight: normal;
+    font-size: 10px;
   }
 
-  span {
+  p {
+    letter-spacing: 3px;
+    font-weight: 800;
   }
 `;
 
@@ -73,12 +73,9 @@ const WalletDetail = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
-
-  border-radius: 5px;
 
   p {
-    color: #fffbfa;
+    color: #000000;
   }
 `;
 

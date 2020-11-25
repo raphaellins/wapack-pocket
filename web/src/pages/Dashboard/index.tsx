@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
         {operations.map((operation) => (
           <Operation>
             <OperationDay>
-              <strong>21</strong>
+              <p>21</p>
               <strong>NOV</strong>
             </OperationDay>
             <span>{operation.operationTitle}</span>
