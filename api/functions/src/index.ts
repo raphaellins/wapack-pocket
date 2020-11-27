@@ -26,7 +26,15 @@ application.get(
   authorization,
   findOperation
 );
-application.delete("/wallet-operation", authorization, deleteOperation);
-application.put("/wallet-operation", authorization, updateOperation);
+application.delete(
+  "/wallet-operation/:operationId",
+  authorization,
+  deleteOperation
+);
+application.put(
+  "/wallet-operation/:operationId",
+  authorization,
+  updateOperation
+);
 
 exports.api = functions.https.onRequest(application);

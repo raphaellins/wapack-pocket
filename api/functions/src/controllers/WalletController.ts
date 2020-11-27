@@ -19,7 +19,7 @@ export async function createOperation(request: any, response: any) {
 
   await createRecurrencyOperations(request, requestWalletOperation);
 
-  return response.json({ detail: "Operation created with sucess!" });
+  return response.json({ detail: "Operation created with success!" });
 }
 
 export async function deleteOperation(request: any, response: any) {
@@ -29,7 +29,7 @@ export async function deleteOperation(request: any, response: any) {
     return response.status(400).json({ detail: "operationId cannot be null" });
   }
 
-  await database.collection("draws").doc(operationId).delete();
+  await database.collection("wallet").doc(operationId).delete();
 
   return response.json({ result: `Operation Id: ${operationId} deleted` });
 }
