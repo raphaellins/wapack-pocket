@@ -42,4 +42,8 @@ export default class WalletProxy {
    * @param operation
    */
   public updateOperation(operation: WalletOperation) {}
+
+  public createOperation(operation: WalletOperation): Promise<void> {
+    return Promise.resolve();
+  }
 }

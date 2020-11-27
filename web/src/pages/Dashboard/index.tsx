@@ -22,8 +22,10 @@ const Dashboard: React.FC = () => {
     history.push("/");
   };
 
-  const handleNewOperation = () => {
+  const handleNewOperation = async () => {
     console.log("HANDLE NEW OPERATION");
+
+    await new WalletProxy().createOperation({} as WalletOperation);
   };
 
   useEffect(() => {
