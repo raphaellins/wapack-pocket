@@ -135,15 +135,7 @@ async function createRecurrencyOperations(
     for (; index < wallet.recurrencyQuantity; index++) {
       const walletEntity: WalletOperation = wallet;
 
-      if (walletEntity.recurrencyType === "MONTH") {
-        walletEntity.operationDate = new Date(
-          operationDate.setMonth(operationDate.getMonth() + index)
-        );
-      } else if (walletEntity.recurrencyType === "WEEK") {
-        walletEntity.operationDate = new Date(
-          operationDate.setDate(operationDate.getDate() + 1 * 7)
-        );
-      }
+      fillCorrectDate(walletEntity, operationDate, index);
 
       operationDate = new Date(walletEntity.operationDate);
 
@@ -161,4 +153,20 @@ async function createOperationEntity(
   requestWalletOperation.userId = request.user.user_id;
 
   await database.collection("wallet").add(requestWalletOperation);
+}
+
+function fillCorrectDate(
+  walletEntity: WalletOperation,
+  operationDate: Date,
+  index: number
+): void {
+  if (walletEntity.recurrencyType === "MONTH") {
+    walletEntity.operationDate = new Date(
+      operationDate.setMonth(operationDate.getMonth() + index)
+    );
+  } else if (walletEntity.recurrencyType === "WEEK") {
+    walletEntity.operationDate = new Date(
+      operationDate.setDate(operationDate.getDate() + 1 * 7)
+    );
+  }
 }
