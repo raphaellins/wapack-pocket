@@ -1,8 +1,15 @@
 import React, { useCallback } from "react";
 import { Form } from "@unform/web";
+import WalletOperation from "../../models/wallet-operation.interface";
+import WalletProxy from "../../services/wallet.proxy";
 
 const Dashboard: React.FC = () => {
-  const handleSubmit = useCallback(async (data: any) => {}, []);
+  const handleSubmit = useCallback(async (operation: WalletOperation) => {
+    //validations
+
+    //execution
+    await new WalletProxy().createOperation(operation);
+  }, []);
 
   return (
     <>
